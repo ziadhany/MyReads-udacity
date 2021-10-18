@@ -12,6 +12,7 @@ class SearchBooks extends React.Component {
         }
         this.handleChange = this.handleChange.bind(this);
     }
+
     handleChange(event) {
         this.setState({query: event.target.value});
         if (event.target.value === "") {
@@ -19,8 +20,15 @@ class SearchBooks extends React.Component {
         }
         else {
             BooksAPI.search(event.target.value).then((result) => {
-                if (!result.error){this.setState({"result":result})}
-                else { this.setState({"result":[]})}
+                if (!result.error){
+                         const booksWithShelves = result.map(book => {
+                             console.log(this.props.books)
+                             const found = this.props.books.find(book_p => book_p.id === book.id);
+                             book.shelf =  found ? found.shelf : "none";
+                             return book;
+                         });
+                    this.setState({ result: booksWithShelves });
+                }
         })}}
     render(){
         return(
