@@ -14,9 +14,13 @@ class SearchBooks extends React.Component {
     }
     handleChange(event) {
         this.setState({query: event.target.value});
-        if (this.state.query === "") {
+        if (event.target.value === "") {
+            this.setState({"result":[]})
+        }
+        else {
             BooksAPI.search(event.target.value).then((result) => {
-            this.setState({result})
+                if (!result.error){this.setState({"result":result})}
+                else { this.setState({"result":[]})}
         })}}
     render(){
         return(
@@ -38,17 +42,13 @@ class SearchBooks extends React.Component {
         </div>
         <div className="search-books-results">
             <ol className="books-grid">
-                { this.state.result  && !this.state.result.error  ?
-
+                {
                     this.state.result.map(item => (
-                    <Books title={item.title}
-                           authors ={item.authors}
-                           imageLinks={item.imageLinks ? item.imageLinks.thumbnail : 'https://http.cat/404'}
-                           key={item.id}
-                           id={item.id}
-                           changeShelf={this.props.changeShelf}/>
-                )) :  "the book not found" }
-
+                    <Books
+                        key={item.id}
+                        item={item}
+                        changeShelf={this.props.changeShelf}/>
+                )) }
             </ol>
         </div>
         </div>
