@@ -25,6 +25,7 @@ class SearchBooks extends React.Component {
                              console.log(this.props.books)
                              const found = this.props.books.find(book_p => book_p.id === book.id);
                              book.shelf =  found ? found.shelf : "none";
+                             console.log(book.shelf)
                              return book;
                          });
                     this.setState({ result: booksWithShelves });
