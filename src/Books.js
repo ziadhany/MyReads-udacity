@@ -6,14 +6,14 @@ class Book extends React.Component {
     }
 
     render() {
-        const { imageLinks , title , authors } = this.props.item;
+        const { imageLinks , title , authors ,shelf} = this.props.item;
         return (
         <li>
             <div className="book">
                 <div className="book-top">
                     <div className="book-cover" style={{width: 128, height: 192, backgroundImage: `url(${imageLinks ? imageLinks.thumbnail : 'https://http.cat/404'})`}}/>
                     <div className="book-shelf-changer">
-                        <select onChange={this.updateShelf}>
+                        <select defaultValue={ shelf ? shelf : 'none' } onChange={this.updateShelf}>
                             <option value="move" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
